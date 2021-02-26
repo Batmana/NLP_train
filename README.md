@@ -10,3 +10,5 @@ This is Latent Semantic Analysis（LSA）demo python script. blog is [here](http
 wiki数据集,链接: https://pan.baidu.com/s/1oDkY4uci3pmUodH2dKTIdA  密码: at7t
 2. 情感分析<br>
 参考文档 [这里](https://github.com/AimeeLee77/senti_analysis)
+
+### FastText
