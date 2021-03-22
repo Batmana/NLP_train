@@ -12,6 +12,7 @@ from gensim.corpora import WikiCorpus
 from gensim.models import word2vec
 from gensim.models.word2vec import LineSentence
 import multiprocessing
+from collections import deque
 from opencc import OpenCC
 import numpy as np
 import pandas as pd
@@ -103,24 +104,25 @@ class Wo2Vec(object):
             self.wv_model = word2vec.Word2Vec.load(self.save_model_file)
         # 查找国王最相似的词
         print("计算相似词")
-        similar_list = self.wv_model.most_similar('皇上')
+        # DeprecationWarning: Call to deprecated `most_similar` (Method will be removed in 4.0.0, use self.wv.most_similar() instead).
+        similar_list = self.wv_model.wv.most_similar('皇上')
         for word in similar_list:
             print(word)
         print("计算相似词，含去除负样本")
-        word = self.wv_model.most_similar(positive=[u'皇上', u'国王'], negative=[u'太后'])
+        word = self.wv_model.wv.most_similar(positive=[u'皇上', u'国王'], negative=[u'太后'])
         for t in word:
             print(t)
         # 计算两个集合的相似度
         list1 = ['乔峰', '慕容复']
         list2 = ['萧远山', '慕容博']
-        print(self.wv_model.n_similarity(list1, list2))
+        print(self.wv_model.wv.n_similarity(list1, list2))
 
         print("找出不同类的词")
         # 选出集合中不同类的词语
         list3 = ['乔峰', '段誉', '虚竹', '丁春秋']
-        print(self.wv_model.doesnt_match(list3))
+        print(self.wv_model.wv.doesnt_match(list3))
         print("两个词向量的相近程度")
-        print(self.wv_model.similarity(u'书籍', u'书本'))
+        print(self.wv_model.wv.similarity(u'书籍', u'书本'))
 
 
 class SentiAnalysis():
