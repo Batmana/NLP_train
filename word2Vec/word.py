@@ -302,6 +302,6 @@ if __name__ == '__main__':
     # out.segFile()
     # 训练word2Vec模型
     # out.model()
-    # out.testModel()
-    senti = SentiAnalysis("../data/stopwords-master/stopWord.txt", "model/wiki.zh.text.model")
-    senti.train("../data/ChnSentiCorp_htl_ba_2000/2000_pos_ut8.txt", "../data/ChnSentiCorp_htl_ba_2000/2000_neg_ut8.txt", "../data/ChnSentiCorp_htl_ba_2000/2000_data.csv")
+    out.testModel()
+    # senti = SentiAnalysis("../data/stopwords-master/stopWord.txt", "model/wiki.zh.text.model")
+    # senti.train("../data/ChnSentiCorp_htl_ba_2000/2000_pos_ut8.txt", "../data/ChnSentiCorp_htl_ba_2000/2000_neg_ut8.txt", "../data/ChnSentiCorp_htl_ba_2000/2000_data.csv")
