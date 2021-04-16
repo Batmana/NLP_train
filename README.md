@@ -12,3 +12,11 @@ wiki数据集,链接: https://pan.baidu.com/s/1oDkY4uci3pmUodH2dKTIdA  密码: a
 参考文档 [这里](https://github.com/AimeeLee77/senti_analysis)
 
 ### FastText
+
+
+### XGBOOST
+#### 利用Xgboost实现文本分类
+1. 数据：
+    [BBC新闻数据](https://www.kaggle.com/yufengdev/bbc-fulltext-and-category)
+    xgboost 文本分类；
+    [参考文本](https://zhuanlan.zhihu.com/p/77005593)
