@@ -122,7 +122,7 @@ def trainning():
             best_model = model
 
         if epoch % 20 == 0:
-            torch.save(best_model.state_dict(), MODEL_PATH)
+            torch.save(best_model.state_dict(), config.MODEL_PATH)
 
 
 if __name__ == '__main__':
