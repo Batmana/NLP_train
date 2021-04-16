@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import threading
 import torch
 from BiLSTM_CRF import BiLSTM_CRF
@@ -11,20 +13,6 @@ import util
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
-
-EPOCHES = 300
-
-EMBEDDING_DIM = 300
-# 隐层向量大小
-HIDDEN_DIM = 300
-# 批量大小
-BATCH_SIZE = 128
-# 学习率
-lr = 0.0001
-
-TRAIN_DATA_PATH = r"../data/NER_corpus_chinese-master/Peoples_Daily/rmrb4train.csv"
-MODEL_PATH = os.path.join(r'model/', "model_emb_{}_hidden_{}_batch_{}_baseline2".format(EMBEDDING_DIM, HIDDEN_DIM,BATCH_SIZE))
-NEWS_PATH = r"../newsin"
 
 
 class Train():
@@ -105,11 +93,11 @@ def trainning():
     """
     train_obj = Train()
 
-    training_data, word_to_ix, tag_to_ix = util.data_prepare(TRAIN_DATA_PATH)
+    training_data, word_to_ix, tag_to_ix = util.data_prepare(config.TRAIN_DATA_PATH)
     training_data.char = training_data.char.apply(lambda c: util.prepare_sequence(c, word_to_ix))
     training_data.tag = training_data.tag.apply(lambda t: torch.tensor([tag_to_ix[t_] for t_ in t], dtype=torch.long))
 
-    model = BiLSTM_CRF(len(word_to_ix), tag_to_ix, EMBEDDING_DIM, HIDDEN_DIM)
+    model = BiLSTM_CRF(len(word_to_ix), tag_to_ix, config.EMBEDDING_DIM, config.HIDDEN_DIM)
     # 定义优化器为Adam优化器
     optimizer = optim.Adam(model.parameters(), lr=lr)
 

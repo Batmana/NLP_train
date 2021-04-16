@@ -4,11 +4,7 @@ import torch
 import pandas as pd
 import os
 import re
-
-START_TAG = "<START>"
-STOP_TAG = "<STOP>"
-UNK_TAG = "<UNK>"
-
+import config
 
 def data_prepare(data):
     """
@@ -28,7 +24,12 @@ def data_prepare(data):
             if word not in word_to_ix:
                 word_to_ix[word] = len(word_to_ix)
 
-    tag_to_ix = {START_TAG: 0, STOP_TAG: 1, UNK_TAG: 2, 'O': 3}
+    tag_to_ix = {
+                config.START_TAG: 0,
+                 config.STOP_TAG: 1,
+                 config.UNK_TAG: 2,
+                 'O': 3
+    }
     tag_to_ix_tmp = dict(
         zip([a + b for a in ['B', 'M', 'E'] for b in ['_TIME', '_PERSON', '_LOCATION', '_ORGANIZATION']], range(4, 16)))
 

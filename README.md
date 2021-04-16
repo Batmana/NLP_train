@@ -1,7 +1,7 @@
 # NLP_train
 
 ### LSA
-This is Latent Semantic Analysis（LSA）demo python script. blog is [here](http://blog.csdn.net/SA14023053/article/details/51702052)
+LSA 示例，参考[here](http://blog.csdn.net/SA14023053/article/details/51702052)
 
 ### Word2Vec
 #### 利用Word2Vec训练词向量，并实现了情感分析
