@@ -20,3 +20,9 @@ wiki数据集,链接: https://pan.baidu.com/s/1oDkY4uci3pmUodH2dKTIdA  密码: a
     [BBC新闻数据](https://www.kaggle.com/yufengdev/bbc-fulltext-and-category)
     xgboost 文本分类；
     [参考文本](https://zhuanlan.zhihu.com/p/77005593)
+    
+### BiLstm_CRF 
+1. BIO、BIOSE、IOB、BILOU、BMEWO、BMEWO+ [序列标注方法](https://zhuanlan.zhihu.com/p/147537898)
+   BIO，BIOES，BMES[命名实体识别的三中标注方法](https://blog.csdn.net/qq_44079295/article/details/96429667)
+    
+2. bilstmCRF[参考文档](https://blog.csdn.net/b285795298/article/details/102973148)
