@@ -6,6 +6,7 @@ import torch.optim as optim
 
 from util import argmax, log_sum_exp
 import util
+import config
 # 在神经网络中，参数默认是进行随机初始化的。如果不设置的话每次训练时的初始化都是随机的，导致结果不确定。如果设置初始化，则每次初始化都是固定的。
 torch.manual_seed(1234)
 
@@ -40,8 +41,8 @@ class BiLSTM_CRF(nn.Module):
 
         # These two statements enforce the constraint that we never transfer
         # to the start tag and we never transfer from the stop tag
-        self.transitions.data[tag_to_ix[util.START_TAG], :] = -10000
-        self.transitions.data[:, tag_to_ix[util.STOP_TAG]] = -10000
+        self.transitions.data[tag_to_ix[config.START_TAG], :] = -10000
+        self.transitions.data[:, tag_to_ix[config.STOP_TAG]] = -10000
 
         self.hidden = self.init_hidden()
 
@@ -62,7 +63,7 @@ class BiLSTM_CRF(nn.Module):
         # Do the forward algorithm to compute the partition function
         init_alphas = torch.full((1, self.tagset_size), -10000.)
         # START_TAG has all of the score.
-        init_alphas[0][self.tag_to_ix[util.START_TAG]] = 0.
+        init_alphas[0][self.tag_to_ix[config.START_TAG]] = 0.
 
         # Wrap in a variable so that we will get automatic backprop
         forward_var = init_alphas
@@ -84,7 +85,7 @@ class BiLSTM_CRF(nn.Module):
                 # scores.
                 alphas_t.append(log_sum_exp(next_tag_var).view(1))
             forward_var = torch.cat(alphas_t).view(1, -1)
-        terminal_var = forward_var + self.transitions[self.tag_to_ix[util.STOP_TAG]]
+        terminal_var = forward_var + self.transitions[self.tag_to_ix[config.STOP_TAG]]
         alpha = log_sum_exp(terminal_var)
         return alpha
 
@@ -112,12 +113,12 @@ class BiLSTM_CRF(nn.Module):
         """
         # Gives the score of a provided tag sequence
         score = torch.zeros(1)
-        tags = torch.cat([torch.tensor([self.tag_to_ix[util.START_TAG]], dtype=torch.long), tags])
+        tags = torch.cat([torch.tensor([self.tag_to_ix[config.START_TAG]], dtype=torch.long), tags])
 
         # feats 是bilstm提取的特征[标签数量长度]
         for i, feat in enumerate(feats):
             score = score + self.transitions[tags[i + 1], tags[i]] + feat[tags[i + 1]]
-        score = score + self.transitions[self.tag_to_ix[util.STOP_TAG], tags[-1]]
+        score = score + self.transitions[self.tag_to_ix[config.STOP_TAG], tags[-1]]
         return score
 
     def _viterbi_decode(self, feats):
@@ -130,7 +131,7 @@ class BiLSTM_CRF(nn.Module):
 
         # Initialize the viterbi variables in log space
         init_vvars = torch.full((1, self.tagset_size), -10000.)
-        init_vvars[0][self.tag_to_ix[util.START_TAG]] = 0
+        init_vvars[0][self.tag_to_ix[config.START_TAG]] = 0
 
         # forward_var at step i holds the viterbi variables for step i-1
         forward_var = init_vvars
@@ -154,7 +155,7 @@ class BiLSTM_CRF(nn.Module):
             backpointers.append(bptrs_t)
 
         # Transition to STOP_TAG
-        terminal_var = forward_var + self.transitions[self.tag_to_ix[util.STOP_TAG]]
+        terminal_var = forward_var + self.transitions[self.tag_to_ix[config.STOP_TAG]]
         best_tag_id = argmax(terminal_var)
         path_score = terminal_var[0][best_tag_id]
 
@@ -165,7 +166,7 @@ class BiLSTM_CRF(nn.Module):
             best_path.append(best_tag_id)
         # Pop off the start tag (we dont want to return that to the caller)
         start = best_path.pop()
-        assert start == self.tag_to_ix[util.START_TAG]  # Sanity check
+        assert start == self.tag_to_ix[config.START_TAG]  # Sanity check
         best_path.reverse()
         return path_score, best_path
 

@@ -9,8 +9,8 @@ import numpy as np
 import torch.utils.data as data
 import sys
 import util
-
 import os
+import config
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
@@ -56,7 +56,7 @@ class Train():
                 elapsed = time.time() - start_time
                 print('| epoch {:3d} | '
                       'lr {:02.6f} | ms/batch {:5.2f} | '
-                      'loss {:5.5f} |'.format(epoch, lr,
+                      'loss {:5.5f} |'.format(epoch, config.lr,
                                               elapsed * 1000 / log_interval,
                                               cur_loss))
                 total_loss = 0
@@ -99,22 +99,22 @@ def trainning():
 
     model = BiLSTM_CRF(len(word_to_ix), tag_to_ix, config.EMBEDDING_DIM, config.HIDDEN_DIM)
     # 定义优化器为Adam优化器
-    optimizer = optim.Adam(model.parameters(), lr=lr)
+    optimizer = optim.Adam(model.parameters(), lr=config.lr)
 
     best_val_loss = float("inf")
     best_model = None
 
     # Make sure prepare_sequence from earlier in the LSTM section is loaded
-    for epoch in range(EPOCHES):  # again, normally you would NOT do 300 epochs, it is toy data
-        rmrb_loader = training_data.iloc[:-10000].sample(BATCH_SIZE)
+    for epoch in range(config.EPOCHES):  # again, normally you would NOT do 300 epochs, it is toy data
+        rmrb_loader = training_data.iloc[:-10000].sample(config.BATCH_SIZE)
         rmrb_loader_test = training_data.iloc[-10000:].sample(1000)
 
         epoch_start_time = time.time()
         train_obj.train(model, epoch, optimizer, rmrb_loader)
         val_loss = train_obj.evaluate(model, rmrb_loader_test)
         print('-' * 89)
-        print('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '.format(epoch, (time.time() - epoch_start_time),
-                                         val_loss))
+        print('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '.
+              format(epoch, (time.time() - epoch_start_time), val_loss))
         print('-' * 89)
 
         if val_loss < best_val_loss:
