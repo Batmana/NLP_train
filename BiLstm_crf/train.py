@@ -78,7 +78,8 @@ class Train():
         with torch.no_grad():
             for j in range(len(data_source)):
                 sentence_k, targets_k = data_source.iloc[j]
-                if sentence_k.shape[0] < 4: continue
+                if sentence_k.shape[0] < 4:
+                    continue
                 loss_test = eval_model.neg_log_likelihood(sentence_k, targets_k)
                 total_loss += float(loss_test) / len(sentence_k)
         return total_loss

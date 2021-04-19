@@ -10,7 +10,6 @@ import config
 # 在神经网络中，参数默认是进行随机初始化的。如果不设置的话每次训练时的初始化都是随机的，导致结果不确定。如果设置初始化，则每次初始化都是固定的。
 torch.manual_seed(1234)
 
-
 class BiLSTM_CRF(nn.Module):
     def __init__(self, vocab_size, tag_to_ix, embedding_dim, hidden_dim):
         """
@@ -127,6 +126,7 @@ class BiLSTM_CRF(nn.Module):
         :param feats:
         :return:
         """
+
         backpointers = []
 
         # Initialize the viterbi variables in log space

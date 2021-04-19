@@ -25,10 +25,10 @@ def data_prepare(data):
                 word_to_ix[word] = len(word_to_ix)
 
     tag_to_ix = {
-                config.START_TAG: 0,
-                 config.STOP_TAG: 1,
-                 config.UNK_TAG: 2,
-                 'O': 3
+        config.START_TAG: 0,
+        config.STOP_TAG: 1,
+        config.UNK_TAG: 2,
+        'O': 3
     }
     tag_to_ix_tmp = dict(
         zip([a + b for a in ['B', 'M', 'E'] for b in ['_TIME', '_PERSON', '_LOCATION', '_ORGANIZATION']], range(4, 16)))
